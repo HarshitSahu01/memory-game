@@ -47,7 +47,7 @@ export default function GameBoard() {
 
   return (
     <>
-      <div className="score">Turns: {moves}</div>
+      {/* <div className="score">Turns: {moves}</div> */}
       <div className='flex justify-center items-center'>
         <div className={Style.gameboard}>
           {
