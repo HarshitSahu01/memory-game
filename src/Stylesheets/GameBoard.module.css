@@ -1,0 +1,12 @@
+.gameboard {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    background-color: #fff7;
+    gap: 1rem;
+    padding: 1rem; 
+    user-select: none;
+}
+
+.score {
+    text-align: end;
+}
