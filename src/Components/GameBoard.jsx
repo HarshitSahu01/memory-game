@@ -1,52 +1,73 @@
 import React, { useState } from 'react'
 import Block from './Block'
 import Style from '../Stylesheets/GameBoard.module.css'
-import getArray from './assets/utils'
+import getArray from './assets/utils2'
+import AudioFiles from './assets/AudioFiles'
 
 export default function GameBoard() {
-  const [arr, setArr] = useState(getArray());
+  const [cards, setCards] = useState(getArray());
   const [prev, setPrev] = useState(null);
-  const [settings, setSettings] = useState({remaining:14});
-  let cpy;
+  const [settings, setSettings] = useState({ remaining: 7 });
+  const [moves, setMoves] = useState(0);
+
   const updateBoard = (id) => {
-    console.log('clicked: '+id + 'was: '+prev);
+    const sound = new Audio(AudioFiles.click);
+    sound.play();
+    setMoves(moves + 1);
     if (id == prev) return;
-    cpy = [...arr];
-    cpy[id].flipped = !cpy[id].flipped;
-    console.log(arr)
-    setArr(cpy);
-    console.log(arr)
+    setCards(prevCards => {
+      const updatedCards = { ...prevCards };
+      updatedCards[id].flipped = true;
+      return updatedCards;
+    });
+
     if (prev == null) {
       setPrev(id);
     } else {
-      if (cpy[id].emoji != cpy[prev].emoji) {
+      if (cards[id].emoji != cards[prev].emoji) {
         setTimeout(() => {
-          console.log('flipping algo');
-          console.log(arr);
-          cpy[id].flipped = false;
-          cpy[prev].flipped = false;
-          setArr(cpy);
-          console.log(arr);
-        }, 100);
-      } else {
-        cpy[id].used = true;
-        cpy[prev].used = true;
-        setArr(cpy);
-        setSettings({...settings, remaining: settings.remaining - 2})
-        console.log(settings.remaining);
+          const sound2 = new Audio(AudioFiles.fallback);
+          sound2.play();
+          setCards(prevCards => {
+            const updatedCards = { ...prevCards };
+            updatedCards[id].flipped = false;
+            updatedCards[prev].flipped = false;
+            return updatedCards;
+          });
+        }, 1000);
+      }
+      else {
+        const sound3 = new Audio(AudioFiles.bonus);
+        sound3.play();
+        setCards(prevCards => {
+          const updatedCards = { ...prevCards };
+          updatedCards[id].used = true;
+          updatedCards[prev].used = true;
+          return updatedCards;
+        })
+        setSettings({ ...settings, remaining: settings.remaining - 1 })
       }
       setPrev(null);
-      if(settings.remaining == 0) setTimeout(() => {alert("wow you won!");}, 300);
+      if (settings.remaining == 0) setTimeout(() => {
+        const sound4 = new Audio(AudioFiles.win);
+        sound4.play();
+        alert("You won!");
+      }, 300);
     }
   }
 
   return (
-    <div className='flex justify-center items-center'>
-      <div className={Style.gameboard}>
-        {arr.map((item, index) => {
-          return <Block key={index} item={item} updateBoard={updateBoard}/>
-        })}
+    <>
+      {/* <div className="score">Turns: {moves}</div> */}
+      <div className='flex justify-center items-center'>
+        <div className={Style.gameboard}>
+          {
+            Object.keys(cards).map((item, index) => {
+              return <Block key={index} item={cards[item]} updateBoard={updateBoard} />
+            })
+          }
+        </div>
       </div>
-    </div>
+    </>
   )
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import GameBoard from './Components/GameBoard2'
+import GameBoard from './Components/GameBoard'
 import Test from './Components/assets/Test'
 
 export default function App() {
