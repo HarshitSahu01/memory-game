@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Block from './Block'
 import Style from '../Stylesheets/GameBoard.module.css'
-import getArray from './assets/utils2'
+import getArray from './assets/utils'
 import AudioFiles from './assets/AudioFiles'
 
 export default function GameBoard() {
@@ -11,7 +11,7 @@ export default function GameBoard() {
   const [moves, setMoves] = useState(0);
 
   const updateBoard = (id) => {
-    const sound = new Audio(AudioFiles.click);
+    const sound = AudioFiles.click.cloneNode();
     sound.play();
     setMoves(moves + 1);
     if (id == prev) return;
@@ -26,7 +26,7 @@ export default function GameBoard() {
     } else {
       if (cards[id].emoji != cards[prev].emoji) {
         setTimeout(() => {
-          const sound2 = new Audio(AudioFiles.fallback);
+          const sound2 = AudioFiles.fallback.cloneNode();
           sound2.play();
           setCards(prevCards => {
             const updatedCards = { ...prevCards };
@@ -37,7 +37,7 @@ export default function GameBoard() {
         }, 1000);
       }
       else {
-        const sound3 = new Audio(AudioFiles.bonus);
+        const sound3 = AudioFiles.bonus.cloneNode();
         sound3.play();
         setCards(prevCards => {
           const updatedCards = { ...prevCards };
@@ -49,7 +49,7 @@ export default function GameBoard() {
       }
       setPrev(null);
       if (settings.remaining == 0) setTimeout(() => {
-        const sound4 = new Audio(AudioFiles.win);
+        const sound4 = AudioFiles.win.cloneNode();
         sound4.play();
         alert("You won!");
       }, 300);

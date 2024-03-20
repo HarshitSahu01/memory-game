@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import GameBoard from './Components/GameBoard'
 import Test from './Components/assets/Test'
 
 export default function App() {
+  const [stage, setStage] = useState(0);
   return (
     <div>
       <div className='flex justify-center m-8'>
@@ -10,7 +11,9 @@ export default function App() {
           Memoryy Game
         </span>
       </div>
-      <GameBoard />
+      <div>
+        <GameBoard />
+      </div>
       {/* <Test /> */}
     </div>
   )

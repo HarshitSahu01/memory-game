@@ -4,10 +4,10 @@ import bonus from './bonus.wav';
 import win from './win.wav';
 
 const AudioFiles = {
-    click:click,
-    fallback:fallback,
-    bonus:bonus,
-    win:win
+    click: new Audio(click),
+    fallback:new Audio(fallback),
+    bonus:new Audio(bonus),
+    win:new Audio(win)
 }
 
 export default AudioFiles;

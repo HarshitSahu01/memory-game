@@ -12,16 +12,16 @@ const shuffleArray = (array) => {
 
 const getArray = () => {
     let arr = shuffleArray();
-    let newArr = [];
+    let obj = {};
     for (let i = 0; i < 16; i++) {
-        newArr.push({
+        obj[i] = {
             'emoji': arr[i],
             'flipped': false,
             'used': false,
             'id': i
-        });
+        };
     }
-    return newArr;
+    return obj;
 }
 
 export default getArray;
